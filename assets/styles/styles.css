@@ -1,0 +1,290 @@
+/*
+* Skeleton V1.2
+* Copyright 2011, Dave Gamache
+* www.getskeleton.com
+* Free to use under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+* 6/20/2012
+*/
+
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+
+/* Header */
+.header {
+	padding: 22px 0;
+	background-color: #3a3f43;
+	margin-bottom: 14px;
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,0.3);
+	border-bottom: 1px solid #181f25;
+}
+.logo {
+	text-align: center;
+	border-radius: 3px;
+	background-color: #515558;
+	width: 250px;
+	padding: 5px 0;
+	margin: 0 auto;
+}
+.logo h1 {
+	color: #fff;
+	font-weight: normal;
+	font-family: "Alfa Slab One", Arial, sans-serif;
+	margin-bottom: 0;
+}
+
+/* Navgation */
+.nav-menu, 
+.portfolio > figure.columns {
+	display: none;
+}
+label {
+	padding: 5px 10px;
+	color: #3a3f43;
+	cursor: pointer;
+	display: inline-block;
+}
+.nav-menu:checked + label {
+	color: #fff;
+	background-color: #3a3f43;
+	border-radius: 3px;
+}
+#all:checked ~ .portfolio .all,
+#posters:checked ~ .portfolio .poster,
+#illustrations:checked ~ .portfolio .illustration,
+#typography:checked ~ .portfolio .typography,
+#packaging:checked ~ .portfolio .package {
+	display: block;
+}
+
+/* Portfolio */
+.portfolio {
+	margin-top: 20px;
+}
+.portfolio .four.columns {
+	width: 240px;
+	margin-right: 0;
+	margin-left: 0;
+}
+.portfolio > figure {
+	position: relative;
+	overflow: hidden;
+}
+.portfolio > figure img {
+	max-width: 100%;
+	display: block;
+}
+.portfolio figcaption {
+	position: absolute;
+
+	width: 100%;
+	height: 100%;
+
+	left: 0;
+	top: 0;
+
+	background-color: rgba(58,63,67,.8);
+	padding: 10%;
+
+	-webkit-transform: translateX(100%);
+	-moz-transform: translateX(100%);
+	-ms-transform: translateX(100%);
+	-o-transform: translateX(100%);
+	transform: translateX(100%);
+
+	-webkit-transition: all 350ms;
+	-moz-transition: all 350ms;
+	-o-transition: all 350ms;
+	transition: all 350ms;
+}
+.portfolio figcaption h4 {
+	color: #fff;
+}
+.portfolio figcaption p {
+	font-size: 0.929em;
+	color: #fff;
+}
+.portfolio > figure:hover figcaption {
+	-webkit-transform: translateX(0);
+	-moz-transform: translateX(0);
+	-ms-transform: translateX(0);
+	-o-transform: translateX(0);
+	transform: translateX(0);
+}
+
+/* Error section */
+
+.error {
+	text-align: center;
+}
+
+/* Footer Section */
+.footer {
+	border-top: 1px solid #ccc;
+	margin-top: 28px;
+	padding: 28px 0;
+}
+
+.social {
+	float: left;
+}
+.social .copyright {
+	color: #ccc;
+	margin-bottom: 10px;
+	font-size: 1em;
+}
+.social li {
+	display: inline;
+}
+
+.social li a {
+	display: inline-block;
+	width: 48px;
+	height: 48px;
+	text-indent: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.social-dribbble a, 
+.social-facebook a,
+.social-twitter a {
+	background-image: url('../images/social.png'); 
+	background-repeat: no-repeat; 
+}
+
+.social-dribbble a {
+	background-position: 0px -58px;
+} 
+.social-facebook a { 
+	background-position: 0px -174px; 
+}  
+.social-twitter a { 
+	background-position: 0px -290px; 
+}
+
+.social-dribbble a:hover { 
+	background-position: 0px 0;  
+}
+.social-facebook a:hover { 
+	background-position: 0px -116px; 
+}
+.social-twitter a:hover { 
+	background-position: 0px -232px; 
+}
+
+.contact {
+	float: right;
+}
+.contact, .contact a {
+	color: #ccc;
+}
+.contact ul li:before {
+	content: '';
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	background-image: url('../images/contact.png');
+	margin-right: 0.1em;
+}
+.contact-name:before {
+	background-position: 0 -29px; 
+}
+.contact-phone:before {
+	background-position: 0 -63px; 
+} 
+.contact-email:before{ 
+	background-position: 0 5px;
+}
+
+/* Smaller than standard 960 (devices and browsers) */
+@media only screen and (max-width: 959px) {
+	label {
+		display: none;
+	}
+
+	.container {
+		width: 100%;
+	}
+
+	.portfolio .four.columns { 
+    	width: 25%;
+    }
+	.portfolio .all {
+		margin-bottom: 15px;
+	}
+	.portfolio > figure:before {
+		content: attr(data-category);
+		font-size: 1em;
+		padding: 8px;
+		width: 100%;
+		color: #fff;
+		display: block;
+		font-weight: bold;
+		text-transform: capitalize;
+		background-color: rgba(42,47,51,0.8);
+		position: absolute;
+	}
+	.portfolio figcaption {
+		position: relative;
+		opacity: 1;
+
+		-webkit-transform: translateX(0%);
+		-moz-transform: translateX(0%);
+		-ms-transform: translateX(0%);
+		-o-transform: translateX(0%);
+		transform: translateX(0%);
+
+		background-color: #3a3f43;
+	}
+	.portfolio figure:nth-child(odd) figcaption {
+		background-color: #2a2f33;
+	}
+	.footer {
+		border-top: 1px solid #ccc;
+		margin-top: 42px;
+		padding: 28px;
+	}
+}
+
+/* Tablet Portrait size to standard 960 (devices and browsers) */
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+
+}
+
+/* All Mobile Sizes (devices and browser) */
+@media only screen and (max-width: 767px) {
+
+}
+
+/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+    .portfolio .four.columns { 
+    	width: 50%;
+    }
+}
+
+/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+@media only screen and (max-width: 479px) {
+	.container {
+		width: 100%;
+	}
+    .portfolio .four.columns  { 
+    	width: 100%;
+    }
+    .footer {
+    	text-align: center;
+    }
+    .contact, .social {
+    	float: none;
+    	display: block;
+    }
+
+}
