@@ -18,11 +18,11 @@ abstract class Controller
      * @param $options array Options for the view
      * @return void
      */
-    public function __construct( $options )
+    public function __construct( )
     {
-        if (!is_array($options)) {
-            throw new Exception("No options were supplied for the room.");
-        }
+        // if (!is_array($options)) {
+            // throw new Exception("No options were supplied for the room.");
+        // }
     }
 
     /**

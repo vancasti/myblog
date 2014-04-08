@@ -15,7 +15,6 @@ $uri_array = parse_uri();
 //Invoke front controller
 new FrontController($uri_array);
 
-
 //-----------------------------------------------------------------------------
 // Initializes environment variables
 //-----------------------------------------------------------------------------
@@ -84,26 +83,21 @@ $app->set('images_path', remove_unwanted_slashes(APP_URI . IMAGES_PATH));
 function parse_uri( )
 {
     // Removes any subfolders in which the app is installed
-    $real_uri = preg_replace(
-        '~^'.APP_FOLDER.'~',
-        '',
-        $_SERVER['REQUEST_URI'],
-        1
-    );
+    return preg_replace('~^'.APP_FOLDER. '/' . '~', '', $_SERVER['REQUEST_URI'], 1);
 
-    $uri_array = explode('/', $real_uri);
+    // $uri_array = explode('/', $real_uri);
 
     // If the first element is empty, get rid of it
-    if (empty($uri_array[0])) {
-        array_shift($uri_array);
-    }
+    // if (empty($uri_array[0])) {
+        // array_shift($uri_array);
+    // }
+// 
+    // // If the last element is empty, get rid of it
+    // if (empty($uri_array[count($uri_array)-1])) {
+        // array_pop($uri_array);
+    // }
 
-    // If the last element is empty, get rid of it
-    if (empty($uri_array[count($uri_array)-1])) {
-        array_pop($uri_array);
-    }
-
-    return $uri_array;
+    // return $uri_array;
 }
 
 /**

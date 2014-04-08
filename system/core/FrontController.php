@@ -23,19 +23,22 @@ class FrontController
    {
        $this->uri_array = $uri_array;
        
-       $this->class_name = $this->get_controller_classname($uri_array);
-       $this->options = $uri_array;
-       
-       if (empty($class_name) || $class_name == 'Index.php') {
-            $class_name = 'Home';
+       if (empty($this->uri_array)) {
+            $this->class_name = 'Home';
+       } else {
+           $ini = parse_ini_file(SYS_PATH . '/utils/urls.ini');
+           if(isset($ini[$this->uri_array]))
+                $this->class_name = $ini[$this->uri_array];
        }
-
+           
+       // var_dump($this->class_name);    
+       
        // Tries to initialize the requested view, or else throws a 404 error
-       $pathController = SYS_PATH . '/controllers/' . $class_name . '.php';
-            
-       $controller = file_exists($pathController) ? new $class_name($this->options) : new Error('Oops, la página que has solicitado no ha sido encontrada.');
+       $pathController = SYS_PATH . '/controllers/' . $this->class_name . '.php';
+       $controller = file_exists($pathController) ? new $this->class_name() : new Error();
+       $controller->output_view();
    }
-    
+
     /**
      * Determines the controller name using the first element of the URI array
      *
@@ -58,6 +61,5 @@ class FrontController
     {
         return preg_replace('~(?<!:)//~', '/', $dirty_path);
     }
-
 
 }

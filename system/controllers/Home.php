@@ -16,7 +16,7 @@ class Home extends Controller
      */
     public function __construct( )
     {
-        $this->output_view();
+        // $this->output_view();
     }
 
     /**

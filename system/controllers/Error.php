@@ -17,13 +17,9 @@ class Error extends Controller
      * @param $options array Options for the view
      * @return void
      */
-    public function __construct( $message )
+    public function __construct( )
     {
-        if (isset($message)) {
-            $this->_message = $message;
-        } else {
-        	$this->_message = "Error 404";
-        }
+        $this->_message = "Oops, la página que has solicitado no ha sido encontrada.";
     }
 
     /**
@@ -46,8 +42,8 @@ class Error extends Controller
         $view = new View('error');
 		
         $view->message = $this->_message;
-        $view->home_link = APP_URI;
-		$view->images_path = APP_URI . IMAGES_PATH;
+        // $view->home_link = APP_URI;
+		// $view->images_path = APP_URI . IMAGES_PATH;
 
         $view->render();
     }
