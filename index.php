@@ -6,10 +6,22 @@
  * @author Victor Castiñeira <vancasti86@gmail.com>
  * 
  */
+ 
+initconfig(); 
+
+// Parses the URI
+$uri_array = parse_uri();
+
+//Invoke front controller
+new FrontController($uri_array);
+
 
 //-----------------------------------------------------------------------------
 // Initializes environment variables
 //-----------------------------------------------------------------------------
+
+function initconfig( )
+{
 
 // Server path to this app (i.e. /var/www/vhosts/realtime/httpdocs/realtime)
 define('APP_PATH', dirname(__FILE__));
@@ -31,12 +43,14 @@ define('SYS_PATH', APP_PATH . '/system');
 //-----------------------------------------------------------------------------
 
 // Starts the session
-if (!isset($_SESSION)) {
-    session_start();
-}
+// if (!isset($_SESSION)) {
+    // session_start();
+// }
 
 // Loads the configuration variables
 require_once SYS_PATH . '/config/config.php';
+require_once SYS_PATH . '/core/FrontController.php';
+require_once SYS_PATH . '/core/AppContext.php';
 
 // Turns on error reporting if in debug mode
 if (DEBUG===TRUE) {
@@ -53,60 +67,14 @@ date_default_timezone_set(APP_TIMEZONE);
 // Registers class_loader() as the autoload function
 spl_autoload_register('class_autoloader');
 
-//-----------------------------------------------------------------------------
-// Loads and processes view data
-//-----------------------------------------------------------------------------
+//set application default values
+$app = AppContext::instance();
 
-// Parses the URI
-$uri_array = parse_uri();
-$class_name = get_controller_classname($uri_array);
-$options = $uri_array;
+$app->set('css_array', array ('base.css','layout.css','skeleton.css','styles.css'));
+$app->set('css_path', remove_unwanted_slashes(APP_URI . CSS_PATH));
+$app->set('images_path', remove_unwanted_slashes(APP_URI . IMAGES_PATH));
 
-// var_dump($class_name);
-
-// Sets a default view if nothing is passed in the URI (i.e. on the home page)
-if (empty($class_name) || $class_name == 'Index.php') {
-    $class_name = 'Home';
 }
-
-// Tries to initialize the requested view, or else throws a 404 error
-// try {
-	//echo 'Entra en el try';
-	$pathController = SYS_PATH . '/controllers/' . $class_name . '.php';
-	
-	$controller = file_exists($pathController) ? new $class_name($options) : new Error('Oops, la página que has solicitado no ha sido encontrada.');
-// } catch (Exception $e) {
-	// //echo 'Entra en el catch';
-    // $options[1] = $e->getMessage();
-    // $controller = new Error($options);
-// }
-
-//-----------------------------------------------------------------------------
-// Outputs the view
-//-----------------------------------------------------------------------------
-
-// Loads the <title> tag value for the header markup
-$title = $controller->get_title();
-
-//Array with all css stylesheets
-$styleFiles = array ('base.css','layout.css','skeleton.css','styles.css');
-
-// Sets the path to the app stylesheet and images
-// $css_path = CSS_PATH;
-// $images_path = IMAGES_PATH;
-$css_path = remove_unwanted_slashes(APP_URI . CSS_PATH);
-$images_path = remove_unwanted_slashes(APP_URI . IMAGES_PATH);
-
-// Includes the header, requested view, and footer markup
-require_once SYS_PATH . '/inc/header.php';
-
-$controller->output_view();
-
-require_once SYS_PATH . '/inc/footer.php';
-
-//-----------------------------------------------------------------------------
-// Function declarations
-//-----------------------------------------------------------------------------
 
 /**
  * Breaks the URI into an array at the slashes
@@ -136,18 +104,6 @@ function parse_uri( )
     }
 
     return $uri_array;
-}
-
-/**
- * Determines the controller name using the first element of the URI array
- *
- * @param $uri_array array The broken up URI
- * @return string The controller classname
- */
-function get_controller_classname( &$uri_array )
-{
-    $controller = array_shift($uri_array);
-    return ucfirst($controller);
 }
 
 /**

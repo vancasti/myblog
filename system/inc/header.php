@@ -7,7 +7,7 @@
 
 	<meta charset="utf-8">
 
-	<title>John Doe's Portfolio</title>
+	<title>Vancasti's Blog</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	
@@ -17,8 +17,10 @@
 	<link href='http://fonts.googleapis.com/css?family=Alfa+Slab+One' rel='stylesheet' type='text/css'>
 	
 	<?php
-		foreach ($styleFiles as $file => $value) {
-			echo '<link rel="stylesheet" href="' . $css_path . '/' .$value . '">';
+	   $app = AppContext::instance();
+       
+		foreach ($app->get('css_array') as $file => $value) {
+			echo '<link rel="stylesheet" href="' . $app->get('css_path') . '/' .$value . '">';
 		} 
 	?>
 
@@ -26,10 +28,10 @@
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
-	<link rel="shortcut icon" href="<?php echo $images_path; ?>/favicon.ico">
-	<link rel="apple-touch-icon" href="<?php echo $images_path; ?>/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="<?php echo $images_path; ?>/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="<?php echo $images_path; ?>/apple-touch-icon-114x114.png">
+	<link rel="shortcut icon" href="<?php echo $app->get('images_path'); ?>/favicon.ico">
+	<link rel="apple-touch-icon" href="<?php echo $app->get('images_path'); ?>/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="<?php echo $app->get('images_path'); ?>/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="<?php echo $app->get('images_path'); ?>/apple-touch-icon-114x114.png">
 
 </head>
 <body>

@@ -16,7 +16,7 @@ class Home extends Controller
      */
     public function __construct( )
     {
-        return TRUE;
+        $this->output_view();
     }
 
     /**
@@ -38,13 +38,10 @@ class Home extends Controller
     {
         $view = new View('home');
         $view->nonce = $this->generate_nonce();
-		
-		//image folder
-		$view->images_path = APP_URI . IMAGES_PATH;
 
         // Action URIs for form submissions
-        $view->join_action = APP_URI . 'room/join';
-        $view->create_action = APP_URI . 'room/create';
+        // $view->join_action = APP_URI . 'room/join';
+        // $view->create_action = APP_URI . 'room/create';
 
         $view->render();
     }
