@@ -1,37 +1,46 @@
-CREATE TABLE IF NOT EXISTS `dev_blogg`.`roles` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `valor` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`));
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS `dev_blogg`.`users`;
+DROP TABLE IF EXISTS `dev_blogg`.`roles`;
+DROP TABLE IF EXISTS `dev_blogg`.`tags`;
+DROP TABLE IF EXISTS `dev_blogg`.`categories`;
+DROP TABLE IF EXISTS `dev_blogg`.`publications`;
+DROP TABLE IF EXISTS `dev_blogg`.`publications_tags`;
+DROP TABLE IF EXISTS `dev_blogg`.`statistics`;
+SET FOREIGN_KEY_CHECKS = 1;
 
+CREATE TABLE IF NOT EXISTS `dev_blogg`.`roles` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `valor` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`)) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `dev_blogg`.`users` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(255) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(60) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
-  `id_rol` INT NOT NULL,
+  `id_rol` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `id_idx` (`id_rol` ASC),
-  CONSTRAINT `id`
+  CONSTRAINT `users-roles`
     FOREIGN KEY (`id_rol`)
     REFERENCES `dev_blogg`.`roles` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON UPDATE NO ACTION) DEFAULT CHARSET=utf8;
 
 CREATE TABLE `dev_blogg`.`tags` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `valor` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`));
+  `valor` VARCHAR(60) NOT NULL,
+  PRIMARY KEY (`id`)) DEFAULT CHARSET=utf8;
 
 CREATE TABLE `dev_blogg`.`categories` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `valor` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`));
+  `valor` VARCHAR(60) NOT NULL,
+  PRIMARY KEY (`id`)) DEFAULT CHARSET=utf8;
 
 CREATE TABLE `dev_blogg`.`publications` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `titulo` VARCHAR(100) NOT NULL,
-  `url` VARCHAR(60) NOT NULL,
+  `url` VARCHAR(100) NOT NULL,
   `cuerpo` TEXT NOT NULL,
   `fcreacion` DATETIME NOT NULL,
   `fmodificacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -50,7 +59,7 @@ CREATE TABLE `dev_blogg`.`publications` (
     FOREIGN KEY (`id_categoria`)
     REFERENCES `dev_blogg`.`categories` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON UPDATE NO ACTION) DEFAULT CHARSET=utf8;
 
 CREATE TABLE `dev_blogg`.`publications_tags` (
   `id_publication` INT(11) NOT NULL,
@@ -66,7 +75,7 @@ CREATE TABLE `dev_blogg`.`publications_tags` (
     FOREIGN KEY (`id_publication`)
     REFERENCES `dev_blogg`.`publications` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON UPDATE NO ACTION) DEFAULT CHARSET=utf8;
 
 CREATE TABLE `dev_blogg`.`statistics` (
   `id` INT(11) NOT NULL,
@@ -82,11 +91,5 @@ CREATE TABLE `dev_blogg`.`statistics` (
     FOREIGN KEY (`id_noticia`)
     REFERENCES `dev_blogg`.`publications` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
-
-CREATE TABLE `dev_blogg`.`redirects` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `url` VARCHAR(45) NOT NULL,
-  `controller` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`));
+    ON UPDATE NO ACTION) DEFAULT CHARSET=utf8;
 

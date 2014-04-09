@@ -11,6 +11,7 @@ RewriteRule ^index\.php$ - [L]
 
 # Don't redirect if there's an asset
 RewriteCond %{REQUEST_FILENAME} !\.(js|ico|gif|jpg|png|css|html|swf|mp3|wav|txt)$
+RewriteCond %{REQUEST_FILENAME} !-d
 
 # Redirecto to index.php
 RewriteRule . index.php [L]

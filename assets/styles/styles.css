@@ -46,11 +46,16 @@ h1, h2, h3, h4, h5, h6 {
 	display: none;
 }
 label {
-	padding: 5px 10px;
+	/*padding: 5px 10px;*/
 	color: #3a3f43;
 	cursor: pointer;
 	display: inline-block;
 }
+
+input {
+	display: inline-block;
+}
+
 .nav-menu:checked + label {
 	color: #fff;
 	background-color: #3a3f43;
