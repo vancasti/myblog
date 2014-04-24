@@ -30,10 +30,6 @@ class FrontController
            $this->class_name = $this->get_private_controller($uri_array);  
        } 
          
-       // echo 'Controller privado recogido<br/>';
-       // var_dump($this->class_name);
-       // echo '<br/>';
-       
        // echo 'Action recogido<br/>';
        // var_dump($uri_array);
        // echo '<br/>';

@@ -6,21 +6,21 @@
  * @author Victor Castiñeira <vancasti86@gmail.com>
  * 
  */
-class CategoriesController extends Controller
+class TagsController extends Controller
 {
     public function __construct( $options ) 
     {
         parent::__construct($options);
         
-        $this->model = new CategoryModel;
+        $this->model = new tagModel;
         
-        $this->view = new View('CategoriesView');
+        $this->view = new View('TagsView');
         
         $this->actions = array (
-            'add' => 'add_category',
-            'edit' => 'edit_category',
-            'update' => 'update_category',
-            'delete' => 'delete_category',
+            'add' => 'add_tag',
+            'edit' => 'edit_tag',
+            'update' => 'update_tag',
+            'delete' => 'delete_tag',
         );
         
         $this->options = $options;
@@ -29,7 +29,7 @@ class CategoriesController extends Controller
         
         $this->executeAction($options);
         
-        $this->list_categories();
+        $this->list_tags();
     }
     
      /**
@@ -56,15 +56,15 @@ class CategoriesController extends Controller
     *
     * @return void
     */
-    protected function add_category( )
+    protected function add_tag( )
     {
-        // var_dump($_POST['name_category']);
-        $name_categoria = $this->sanitize($_POST['name_category']);
+        // var_dump($_POST['name_tag']);
+        $name_categoria = $this->sanitize($_POST['name_tag']);
         if(!empty($name_categoria)) {
             $this->model->create($name_categoria);
         }
         
-        $this->redirect('private/categories');
+        $this->redirect('private/tags');
     }
     
     /**
@@ -72,16 +72,16 @@ class CategoriesController extends Controller
     *
     * @return void
     */
-    protected function edit_category( )
+    protected function edit_tag( )
     {
-        // var_dump($_POST['id_category']);
-        // var_dump($_POST['name_category']);
+        // var_dump($_POST['id_tag']);
+        // var_dump($_POST['name_tag']);
         
-        $id_categoria = $this->sanitize($_POST['id_category']);
-        $name_categoria = $this->sanitize($_POST['name_category']);
+        $id_categoria = $this->sanitize($_POST['id_tag']);
+        $name_categoria = $this->sanitize($_POST['name_tag']);
         
         $this->model->update($id_categoria, $name_categoria);
-        $this->redirect('private/categories');
+        $this->redirect('private/tags');
     }
     
     /**
@@ -89,14 +89,14 @@ class CategoriesController extends Controller
     *
     * @return void
     */
-    protected function delete_category()
+    protected function delete_tag()
     {
         // var_dump($this->options);
         
         $id_categoria = $this->options[1];
         
         $this->model->delete($id_categoria);
-        $this->redirect('private/categories');
+        $this->redirect('private/tags');
     }
     
      /**
@@ -104,7 +104,7 @@ class CategoriesController extends Controller
     *
     * @return void
     */
-    protected function list_categories() {
+    protected function list_tags() {
         
         // var_dump($options);
         $current_page = isset($this->options[0]) ? $this->options[0] : 1;
@@ -120,7 +120,7 @@ class CategoriesController extends Controller
         $this->view->total_pages = $total_pages;
         $this->view->current_page = $current_page;
         // $this->view->numElements = $numElements;
-        $this->view->categories = $this->model->getByPagination($first_element, ITEMS_PER_PAGE);
+        $this->view->tags = $this->model->getByPagination($first_element, ITEMS_PER_PAGE);
         $this->view->render();
         
     }

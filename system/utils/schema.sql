@@ -41,7 +41,7 @@ CREATE TABLE `dev_blogg`.`publications` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `titulo` VARCHAR(100) NOT NULL,
   `url` VARCHAR(100) NOT NULL,
-  `cuerpo` TEXT NOT NULL,
+  `contenido` TEXT NOT NULL,
   `fcreacion` DATETIME NOT NULL,
   `fmodificacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `fpublicacion` DATETIME NULL,

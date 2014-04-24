@@ -2,11 +2,12 @@
     <div class="two-thirds column">
         <nav>
         <ul>
-            <li><a title="Opcion 1" href=<?php echo APP_URI . 'private'; ?>>Home</a></li>
-            <li><a title="Opcion 1" href=<?php echo APP_URI . 'private/categories'; ?>>Categorias</a></li>
-            <li><a title="Opcion 2" href=<?php echo APP_URI . 'private/publications'; ?>>Publicaciones</a></li>
-            <li><a title="Opcion 3" href="#">Usuarios</a></li>
-            <li><a title="Opcion 4" href="#">Tags</a></li>
+            <li><a href=<?php echo APP_URI . 'private'; ?>>Home</a></li>
+            <li><a href=<?php echo APP_URI . 'private/publication'; ?>>Redactar</a></li>
+            <li><a href=<?php echo APP_URI . 'private/categories'; ?>>Categorias</a></li>
+            <li><a href=<?php echo APP_URI . 'private/publication/list'; ?>>Publicaciones</a></li>
+            <li><a href="#">Usuarios</a></li>
+            <li><a href=<?php echo APP_URI . 'private/tags'; ?>>Tags</a></li>
         </ul>
     </nav>
     </div>
@@ -22,5 +23,6 @@
         } else {
             echo 'No session opened';
         }?>
+        
     </div>
 </div>

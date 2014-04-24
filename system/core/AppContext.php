@@ -29,3 +29,5 @@ class AppContext
         $this->values[$key] = $value;
     }
 }
+
+?>

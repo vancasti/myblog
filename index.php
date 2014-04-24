@@ -50,6 +50,7 @@ if (!isset($_SESSION)) {
 require_once SYS_PATH . '/config/config.php';
 require_once SYS_PATH . '/core/FrontController.php';
 require_once SYS_PATH . '/core/AppContext.php';
+// require_once SYS_PATH . '/core/DataBase.php';
 
 // Turns on error reporting if in debug mode
 if (DEBUG===TRUE) {
@@ -71,6 +72,7 @@ $app = AppContext::instance();
 
 $app->set('css_array', array ('base.css','layout.css','skeleton.css','styles.css','tables.css'));
 $app->set('css_path', remove_unwanted_slashes(APP_URI . CSS_PATH));
+$app->set('js_path', remove_unwanted_slashes(APP_URI . JS_PATH));
 $app->set('images_path', remove_unwanted_slashes(APP_URI . IMAGES_PATH));
 
 }

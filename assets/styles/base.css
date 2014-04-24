@@ -231,8 +231,8 @@ body {
 		display: block;
 		margin-bottom: 20px;
 		background: #fff; }
-	select {
-		padding: 0; }
+	/*select {
+		padding: 0; }*/
 	input[type="text"]:focus,
 	input[type="password"]:focus,
 	input[type="email"]:focus,
@@ -249,8 +249,8 @@ body {
 		display: block;
 		font-weight: bold;
 		font-size: 13px;  }
-	select {
-		width: 220px; }
+	/*select {
+		width: 220px; }*/
 	input[type="checkbox"] {
 		display: inline; }
 	label span,

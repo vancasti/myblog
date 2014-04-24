@@ -18,12 +18,13 @@ $_C = array();
 $_C['APP_TIMEZONE'] = 'Europe/Madrid';
 $_C['DEFAULT_PUBLIC_CONTROLLER'] = 'HomeController';
 $_C['DEFAULT_PRIVATE_CONTROLLER'] = 'PrivateController';
+$_C['ITEMS_PER_PAGE'] = 5;
 
 //-----------------------------------------------------------------------------
 // Database credentials
 //-----------------------------------------------------------------------------
 
-$_C['DB_HOST'] = 'localhost:3306';
+$_C['DB_HOST'] = '127.0.0.1:3306';
 $_C['DB_NAME'] = 'dev_blogg';
 $_C['DB_USER'] = 'root';
 $_C['DB_PASS'] = 'renacens';
