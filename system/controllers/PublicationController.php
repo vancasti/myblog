@@ -8,10 +8,13 @@
  */
 class PublicationController extends Controller
 {
+    private $requireFields; 
+    
     public function __construct( $options ) 
     {
-        $this->model = new PublicationModel;
+        parent::__construct();
         
+        $this->model = new PublicationModel;
         $this->view = new View('PublicationAddView');
         
         $this->actions = array (
@@ -20,15 +23,12 @@ class PublicationController extends Controller
             'update' => 'update_publication',
             'delete' => 'delete_publication',
             'list' => 'list_publication',
+            'default' => 'output_view'
         );
         
-        //var_dump($options);
-        
-        $this->validation_errors = array ();
+        $this->requireFields = array('titulo', 'fecha', 'contenido'); 
         
         $this->executeAction($options);
-        
-        $this->output_view();
     }
     
      /**
@@ -48,57 +48,123 @@ class PublicationController extends Controller
     */
     public function output_view( )
     {
+        $id_publication = isset($this->id) ? $this->id : 0;
+        
+        // var_dump($id_publication);
         
         $modelCategories = new CategoryModel;
         $modelTags = new TagModel;
         
         $this->view->categories = $modelCategories->getAll();
         $this->view->tags = $modelTags->getAll();
+        
+        if($id_publication) { //if equals to 1
+            $this->view->publication = $this->model->getByID($id_publication);    
+        }
+        
         $this->view->render();
     }
     
-    protected function emptyValidator ($fields) {
-            
+    protected function emptyFieldsValidator () 
+    {
         $error = false;
         
-        foreach ($fields as $key => $field) {
-            if(!empty($_POST[$field]))
-                $name = $this->sanitize($_POST[$field]);
-            else {
-                array_push($this->validation_errors, 'Debe insertar el ' . $field);
+        foreach ($this->requireFields as $field) {
+            
+            if(empty($this->$field)) {
+                $articulo = (substr($field, -1) == 'a') ? 'la ' : 'el ';
+                array_push($this->messages, array('error', 'Debe insertar ' . $articulo . $field));
                 $error = true;
             }
+
         }
         
         return $error;
     }
     
-    protected function add_publication () {
+    protected function add_publication () 
+    {
+        $error = $this->emptyFieldsValidator();
         
-        $fields = array('titulo', 'fecha', 'contenido');
-        
-        $error = $this->emptyValidator($fields);
-        
-        // var_dump($_POST);
-        
+        $publication = array(':titulo' => $this->titulo, 
+                             ':url' => strtolower(str_replace(' ', '-', $this->titulo)),
+                             ':contenido' => $_POST["contenido"],
+                             ':fcreacion' => date('Y-m-d h:i:s'),
+                             ':fpublicacion' => $this->fecha,
+                             ':id_autor' => $_SESSION['id_usuario'],
+                             ':id_categoria' => $this->categoria);
+                             
         if(!$error) {
-            echo $this->modelPublications->create($titulo, $contenido, $fpublicacion, $id_categoria);
-        } else {
-            // var_dump($this->validation_errors);
-            $this->view->validation_errors = $this->validation_errors;
-            $this->output_view();
+            $id_publication = $this->model->create($publication);
+            
+            if(!empty($id_publication)) {
+                
+                foreach ($this->tags as $key => $id_tag) {
+                    $this->model->insertAssociatedTag($id_publication, $id_tag);
+                }
+                
+                array_push($this->messages, array('info', 'Operación realizada correctamente!'));
+                $this->list_publication();
+                die;
+                
+            } else {
+                array_push($this->messages, array('info', 'Error al insertar la publicación'));
+            }
         }
+        
+        $this->view->messages = $this->messages;
+        $this->output_view();
     }
     
     protected function edit_publication( )
     {
+        $error = $this->emptyFieldsValidator();
+        
+        $publication = array(':id' => $this->id, 
+                             ':titulo' => $this->titulo, 
+                             ':url' => strtolower(str_replace(' ', '-', $this->titulo)),
+                             ':contenido' => $_POST["contenido"],
+                             ':fpublicacion' => $this->fecha,
+                             ':id_autor' => $_SESSION['id_usuario'],
+                             ':id_categoria' => $this->categoria);
+        
+        if(!$error) {
+                             
+            if ($this->model->update($publication)) {
+                array_push($this->messages, array('info', 'Operación realizada correctamente!'));
+                $this->list_publication();
+                die;
+            } else {
+                array_push($this->messages, array('info', 'Error al modificar la publicación'));
+            }
+        }
+        
+        $this->view->messages = $this->messages;
+        $this->output_view();     
         
     }
-    
-    protected function list_publication( )
+
+    protected function delete_publication( )
     {
-        $view = new View('PublicationListView');
-        $view->render();
+        if($this->model->delete($this->id)) 
+            array_push($this->messages, array('info', 'Publicación eliminada correctamente!'));
+        else 
+            array_push($this->messages, array('error', 'Error al eliminar la publicación'));
+        
+        $this->list_publication();
+    }
+    
+    protected function list_publication($current_page = 1)
+    {
+        $this->view = new View('ListPublicationsView');
+        $this->view->numElements = $numElements = $this->model->numFindElements();
+        $this->view->PaginationUtil = $PaginationUtil = new PaginationUtil($current_page, $numElements);
+        $this->view->current_page = $current_page;
+        $this->view->entities = $this->model->getByPagination($PaginationUtil->getFirstElement(), ITEMS_PER_PAGE);
+        $this->view->url_paginator = 'private/publication/list/';
+        $this->view->messages = $this->messages;
+        
+        $this->view->render();
     }
 }
 ?>

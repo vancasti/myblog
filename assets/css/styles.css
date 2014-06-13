@@ -13,31 +13,129 @@
 	box-sizing: border-box;
 }
 h1, h2, h3, h4, h5, h6 {
-	font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-weight: bold;
+	font-family: 'Chau Philomene One', "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	/*font-weight: bold;*/
 }
 
 /* Header */
 .header {
-	padding: 22px 0;
-	background-color: #3a3f43;
-	margin-bottom: 14px;
+	padding: 10px 0;
+	background-image:url('../images/chalkboard.jpg');
+	/*margin-bottom: 14px;*/
 	box-shadow: 0 1px 3px 0 rgba(0,0,0,0.3);
 	border-bottom: 1px solid #181f25;
 }
 .logo {
-	text-align: center;
+	/*text-align: center;*/
 	border-radius: 3px;
-	background-color: #515558;
-	width: 250px;
+	/*background-color: #515558;*/
+	/*width: 350px;*/
 	padding: 5px 0;
 	margin: 0 auto;
 }
-.logo h1 {
-	color: #fff;
+.logo h1 a, .logo h4 {
+	/*color: #29DDB5;*/
+	color : #FFFFFF;
 	font-weight: normal;
 	font-family: "Alfa Slab One", Arial, sans-serif;
 	margin-bottom: 0;
+	text-decoration: none;
+}
+
+.blogged-by-img {
+	border-radius: 50%;
+    margin-right: 5px;
+    vertical-align: middle;
+    width: 30px !important;
+}
+
+.post-tags{
+	color: #999999;
+	font-size:14px;
+}
+
+.post-meta *, .post-meta a {
+	color: #999999;
+}
+
+a.orange {
+	background: none repeat scroll 0 0 #F55D2D;
+    border-bottom: 2px solid #D44518 !important;
+    color: #fff;
+    padding: 6px 12px;
+}
+
+.author {
+	font-size: 14px;
+	vertical-align: middle;
+    /*position: relative;*/
+    /*top: 5px;*/
+}
+
+.content {
+	text-align: justify;
+}
+
+.content p:first-child {
+	text-indent: 5%;
+}
+
+.banner {
+	background-image:url('../images/madera.jpg');
+	height: 200px;
+	margin-bottom: 20px;
+}
+
+/*.comments:before {
+	content: "☆";
+	margin-right: 3px;
+}*/
+.publication {
+	padding: 20px;
+}
+
+.publication h2 {
+	/*letter-spacing: 2px;*/
+    margin: 0 0 10px;
+    /*text-align: center;*/
+    /*text-transform: uppercase;*/
+    font-weight: bold;
+}
+
+.about {
+	padding-top : 20px;
+}
+
+aside header h4 {
+	font-weight: bold;
+}
+
+.error, .correct, .info {
+	border-radius: 5px;
+	margin-right: 10px;
+	color: #FFFFFF;
+	padding: 5px;
+}
+
+.menu-nav {
+	background: #fff;
+}
+
+.error {
+	background-color: #FFB2B2;
+}
+
+.correct {
+	background-color: #78AB46;
+}
+
+.info {
+	background-color: #178FE5;
+}
+
+nav label {
+	padding: 10px 10px;
+	color: #fff;
 }
 
 /* Navgation */
@@ -46,8 +144,6 @@ h1, h2, h3, h4, h5, h6 {
 	display: none;
 }
 label {
-	/*padding: 5px 10px;*/
-	color: #3a3f43;
 	cursor: pointer;
 	display: inline-block;
 }
@@ -67,6 +163,53 @@ input {
 #typography:checked ~ .portfolio .typography,
 #packaging:checked ~ .portfolio .package {
 	display: block;
+}
+
+/*nav menu*/
+nav ul, #admin_info ul {
+    list-style:none;
+    margin:10px;
+    padding:0;
+}
+
+nav ul li, #admin_info ul li{
+    float:left;
+    text-align:center;
+}
+
+#admin_info ul li i {
+	margin-right: 3px;
+}
+
+#admin_info ul li {
+    padding-right:10px;
+}
+
+nav ul li a, #admin_info ul li a{
+    color:#000;
+    padding:10px;
+    /*display:block;*/
+    text-decoration:none;
+    font-weight: bold;
+}
+
+nav ul li:nth-child(n+2):before, #admin_info ul li:nth-child(n+2):before{
+    content: "/";
+}
+
+.grey {
+	background-color: #F5F5F5;
+}
+
+/*Pagination*/
+.paginator a {
+	margin: 2px;
+}
+
+.buttongrid, .buttongrid:hover {
+	padding: 0;
+	background: 0;
+	border-bottom: none;
 }
 
 /* Portfolio */
@@ -130,11 +273,25 @@ input {
 	text-align: center;
 }
 
+.nav-pagination {
+	padding: 30px 0;
+	text-align: center;
+}
+
 /* Footer Section */
 .footer {
-	border-top: 1px solid #ccc;
-	margin-top: 28px;
-	padding: 28px 0;
+	/*background: #CD736B;
+	border-top: 1px solid #ccc;*/
+	margin-top: 10px;
+	/*padding: 28px 0;*/
+}
+
+.footer .row {
+	border-top: 1px dotted #ccc;
+}
+
+.footer section {
+	padding-top: 20px;
 }
 
 .social {

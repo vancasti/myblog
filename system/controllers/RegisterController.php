@@ -8,29 +8,22 @@
  */
 class RegisterController extends Controller
 {
+    public $model, 
+           $view, 
+           $actions;
+    
     public function __construct( $options ) 
     {
         $this->model = new UserModel;
-        
         $this->view = new View('RegisterView');
         
         $this->actions = array (
             'new' => 'user_register',
-            'index' => 'output_view'
+            'default' => 'output_view'
         );
         
-        //var_dump($options);
         
         $this->executeAction($options);
-        
-        // if(!empty($options[0])) {
-            // if(array_key_exists($options[0], $this->actions)) {
-                // $output = $this->{$this->actions[$options[0]]}();
-                // die;
-            // }
-        // } 
-//         
-        $this->view->render();
     }
     
      /**

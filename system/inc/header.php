@@ -7,14 +7,18 @@
 
 	<meta charset="utf-8">
 
-	<title>Vancasti's Blog</title>
+	<title>Vancasti's Blog <?php if(isset($title)) echo ' / ' . $title; ?></title>
+	
+	
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	
 	<!-- <meta title="description" content="">
 	<meta title="author" content=""> -->
 
-	<link href='http://fonts.googleapis.com/css?family=Alfa+Slab+One' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
 	
 	<?php
 	   $app = AppContext::instance();
@@ -37,7 +41,30 @@
 <body>
 
 <header class="header">
-	<div class="logo">
-		<h1>BloGG</h1>
+    <div class="container">
+        <div class="two-thirds column">
+        	<div class="logo">
+        		<h1><a href="/blogg">myBlog</a></h1>
+        	</div>
+	   </div>
+       <nav class="one-third column">
+            <!-- start navigation -->
+            <input class="nav-menu" id="all" type="radio" name="filter" checked="checked"/>
+            <label for="all">Home</label>
+            
+            <input class="nav-menu" id="illustrations" type="radio" name="filter"/>
+            <label for="illustrations">Sobre mí</label>
+            
+            <input class="nav-menu" id="posters" type="radio" name="filter"/>
+            <label for="posters">Contacto</label>
+            <!-- end navigation -->
+            </nav>
+        </div>
 	</div>
 </header>
+<div class="banner">
+    <div class="container">
+        <div class="four columns">
+        </div>
+    </div>
+</div>

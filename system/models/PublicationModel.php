@@ -10,44 +10,124 @@
  {
     
     /**
-     * Add a new user
+     * Add a new publication
      *
      * @return boolean true if success
      */
-    public function create($titulo, $contenido, $fpublicacion, $id_categoria)
+    public function create($object)
     {
-        $sql = "INSERT publications (titulo, url, contenido, fcreacion, fmodificacion, fpublicacion, id_autor, id_categoria)
-                VALUES (:titulo, :url, :contenido, :fcreacion, :fmodificacion, :fpublicacion, :id_autor, :id_categoria)";
+        $sql = "INSERT publications (titulo, url, contenido, fcreacion, fpublicacion, id_autor, id_categoria)
+                VALUES (:titulo, :url, :contenido, :fcreacion, :fpublicacion, :id_autor, :id_categoria)";
+                
+        $idInsertedRow = 0;
         
-        $stmt = self::$db->prepare($sql);
-        $stmt->bindParam(':titulo', $titulo);
-        $stmt->bindParam(':contenido', $contenido);
-        $stmt->bindParam(':fpublicacion', $fpublicacion);
-        $stmt->bindParam(':id_categoria', $id_categoria);
+        try {    
+            $stmt = self::$db->prepare($sql);
+            $stmt->execute($object);
+            $idInsertedRow = self::$db->lastInsertId(); 
+        } catch (PDOExeption $e) {
+            print "Error!: " . $e->getMessage() . "</br>"; 
+        }
         
-        return $stmt->execute();
+        return $idInsertedRow;
+        
     }
     
+      /**
+     * Add associated tags to a publication
+     *
+     * @return boolean true if success
+     */
+    public function insertAssociatedTag($id_publication, $id_tag)
+    {
+        $sql = "INSERT publications_tags (id_publication, id_tag)
+                VALUES (:id_publication, :id_tag)";
+                
+        try {    
+            $stmt = self::$db->prepare($sql);
+            $stmt->bindParam(':id_publication', $id_publication, PDO::PARAM_INT);
+            $stmt->bindParam(':id_tag', $id_tag, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (PDOExeption $e) {
+            print "Error!: " . $e->getMessage() . "</br>"; 
+        }
+        
+    }
+    
+      /**
+     * Get associated tags to a publication
+     *
+     * @return boolean true if success
+     */
+    public function getAssociatedTags($array_ids)
+    {
+        $sql = "SELECT id_publication,tags.valor
+                FROM publications_tags
+                LEFT JOIN tags
+                    ON( publications_tags.id_tag = tags.id )
+                WHERE id_publication IN (".implode(',', $array_ids).")";
+                
+        try {    
+            $stmt = self::$db->prepare($sql);
+            $stmt->execute();
+            $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+        } catch (PDOExeption $e) {
+            print "Error!: " . $e->getMessage() . "</br>"; 
+        }
+        
+        return $tags;    
+    }
+       
     /**
      * Add a new user
      *
      * @return boolean true if success
+     * Cambiar last_element por num_elements
      */
     public function getByPagination($first_element, $last_element)
     {
-        $sql = "SELECT * FROM publications 
+        $sql = "SELECT publications.id,titulo,url,contenido,fcreacion,fmodificacion,fpublicacion,categories.valor as categoria, nombre as autor
+                FROM publications 
+                LEFT JOIN categories
+                    ON( publications.id_categoria = categories.id ) 
+                LEFT JOIN users
+                    ON( publications.id_autor = users.id )
+                ORDER BY fpublicacion DESC
                 LIMIT :first_element, :last_element";
         
-        $stmt = self::$db->prepare($sql);
-        $stmt->bindParam(':first_element', $first_element, PDO::PARAM_INT);
-        $stmt->bindParam(':last_element', $last_element, PDO::PARAM_INT);
-        $stmt->execute();
-        $publications = $stmt->fetchAll();
-        $stmt->closeCursor();
-        
-        // var_dump($publications);
+        try {
+            $stmt = self::$db->prepare($sql);
+            $stmt->bindParam(':first_element', $first_element, PDO::PARAM_INT);
+            $stmt->bindParam(':last_element', $last_element, PDO::PARAM_INT);
+            $stmt->execute();
+            $publications = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+        } catch (PDOExeption $e) {
+            print "Error!: " . $e->getMessage() . "</br>"; 
+        }
         
         return $publications;
+    }
+    
+     /**
+     * Add a new user
+     *
+     * @return boolean true if success
+     * Cambiar last_element por num_elements
+     */
+    public function getByID($id)
+    {
+        $sql = "SELECT * FROM publications 
+                WHERE id=:id";
+        
+        $stmt = self::$db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $publication = $stmt->fetch();
+        $stmt->closeCursor();
+        
+        return $publication;
     }
     
     /**
@@ -58,10 +138,6 @@
     public function getAll()
     {
         $sql = "SELECT * FROM publications";
-        
-        // $db = DataBase::instance();
-        // $db->connect();
-        // $stmt = $db->prepare($sql);
         
         $stmt = self::$db->prepare($sql);
         $stmt->execute();
@@ -93,17 +169,21 @@
      *
      * @return boolean true if success
      */
-    public function update($id,$valor)
+    public function update($object)
     {
-        $sql = "UPDATE publications 
-                SET valor = :valor
+        $sql = "UPDATE publications
+                SET titulo=:titulo, url=:url, contenido=:contenido, fpublicacion=:fpublicacion, id_autor=:id_autor, id_categoria=:id_categoria
                 WHERE id = :id";
+                
+        try {    
+            $stmt = self::$db->prepare($sql);
+            $output = $stmt->execute($object);
+        } catch (PDOExeption $e) {
+            print "Error!: " . $e->getMessage() . "</br>"; 
+        }
         
-        $stmt = self::$db->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':valor', $valor);
+        return $output;
         
-        return $stmt->execute();
     }
     
     /**
@@ -113,13 +193,28 @@
      */
     public function delete($id)
     {
-        $sql = "DELETE FROM publications
+        $sql1 = "DELETE FROM publications_tags
+                WHERE id_publication = :id";        
+        
+        $sql2 = "DELETE FROM publications
                 WHERE id = :id";
         
-        $stmt = self::$db->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        
-        return $stmt->execute();
+        try{
+            self::$db->beginTransaction();
+            $stmt = self::$db->prepare($sql1);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            
+            $stmt = self::$db->prepare($sql2);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            
+            return self::$db->commit();
+            
+        } catch(PDOExeption $e) {
+            self::$db->rollBack();
+            print "Error!: " . $e->getMessage() . "</br>"; 
+        }
     }
  }
 ?>

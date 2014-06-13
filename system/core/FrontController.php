@@ -18,18 +18,24 @@ class FrontController
      */
    function __construct($uri_array) 
    {
+       // var_dump($uri_array);
+       $default_controller = $uri_array[0]=='private' ? DEFAULT_PRIVATE_CONTROLLER : DEFAULT_PUBLIC_CONTROLLER;
+       
        $this->class_name = $this->get_controller($uri_array);  
 
        // echo 'Controller a invocar recogida<br/>';
        // var_dump($this->class_name);
        // echo '<br/>';
         
-       if (empty($this->class_name)) {
-            $this->class_name = DEFAULT_PUBLIC_CONTROLLER;
-       } elseif($this->class_name=='PrivateController') {
-           $this->class_name = $this->get_private_controller($uri_array);  
+       if ($this->class_name=='PrivateController') {
+           /**
+            * Ver si esta logeado o con la sesion ya abierta
+            */
+           $this->class_name = $this->get_controller($uri_array);  
        } 
          
+       if (empty($this->class_name)) { $this->class_name = $default_controller; }
+           
        // echo 'Action recogido<br/>';
        // var_dump($uri_array);
        // echo '<br/>';
@@ -57,28 +63,16 @@ class FrontController
      */
     function get_controller( &$uri_array )
     {
-        
         $controller = array_shift($uri_array);
+        // var_dump($controller);
+        if(isset($controller[0]) && $controller[0] == '?')
+            return DEFAULT_PUBLIC_CONTROLLER;
+        else
+            $controller = strtok($controller, '?');
+        // var_dump($firstChunk);
+        // echo '<br/>';
         if(!empty($controller))
             return ucfirst($controller) . 'Controller';
-    }
-    
-    /**
-     * Determines the controller name using the first element of the URI array
-     *
-     * @param $uri_array array The broken up URI
-     * @return string The controller classname
-     */
-    function get_private_controller( &$uri_array )
-    {
-        
-        $controller = array_shift($uri_array);
-        if(!empty($controller)) {
-            return ucfirst($controller) . 'Controller';
-        } else {
-            return DEFAULT_PRIVATE_CONTROLLER;
-        }
-        
     }
     
     function is_a_controller( $uri_array )

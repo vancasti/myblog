@@ -19,7 +19,14 @@ abstract class Model
         $dsn = 'mysql:dbname=' . DB_NAME . ';host=' . DB_HOST;
         
         try {
-            self::$db = new PDO($dsn, DB_USER, DB_PASS);
+            $driver_options = array(
+               PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
+               PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+               PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            );
+            
+            self::$db = new PDO($dsn, DB_USER, DB_PASS, $driver_options);
+            
         } catch (PDOExeption $e) {
             die("Couldn't connect to the database.");
         }

@@ -18,7 +18,7 @@ $_C = array();
 $_C['APP_TIMEZONE'] = 'Europe/Madrid';
 $_C['DEFAULT_PUBLIC_CONTROLLER'] = 'HomeController';
 $_C['DEFAULT_PRIVATE_CONTROLLER'] = 'PrivateController';
-$_C['ITEMS_PER_PAGE'] = 5;
+$_C['ITEMS_PER_PAGE'] = 10;
 
 //-----------------------------------------------------------------------------
 // Database credentials
@@ -39,7 +39,7 @@ $_C['DEBUG'] = TRUE;
 // Folder's assets
 //-----------------------------------------------------------------------------
 
-$_C['CSS_PATH'] = 'assets/styles';
+$_C['CSS_PATH'] = 'assets/css';
 $_C['IMAGES_PATH'] = 'assets/images';
 $_C['JS_PATH'] = 'assets/js';
 

@@ -39,7 +39,7 @@
         $stmt->bindParam(':first_element', $first_element, PDO::PARAM_INT);
         $stmt->bindParam(':last_element', $last_element, PDO::PARAM_INT);
         $stmt->execute();
-        $tags = $stmt->fetchAll();
+        $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $stmt->closeCursor();
         
         // var_dump($tags);

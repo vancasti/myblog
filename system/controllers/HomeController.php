@@ -16,8 +16,12 @@ class HomeController extends Controller
      */
     public function __construct( )
     {
+        parent::__construct();
+        
+        $this->model = new PublicationModel;
         $this->view = new View('HomeView');
-        $this->view->render();
+        
+        $this->output_view();
     }
 
     /**
@@ -29,6 +33,20 @@ class HomeController extends Controller
     {
         return 'Realtime Q&amp;A';
     }
+    
+    
+    public function getTags($publications)
+    {
+        $array_ids = array();
+        
+        foreach ($publications as $key => $publication) {
+            array_push($array_ids, $publication["id"]);
+        }
+        // var_dump($array_ids);
+        
+        return $this->model->getAssociatedTags($array_ids);
+        
+    }
 
     /**
     * Loads and outputs the view's markup
@@ -37,9 +55,17 @@ class HomeController extends Controller
     */
     public function output_view( )
     {
-        // $view = new View('HomeView');
-        // $view->nonce = $this->generate_nonce();
-        // $view->render();
+        if(!isset($this->page)) $this->page = 1;
+        
+        $this->view->numElements = $numElements = $this->model->numFindElements();
+        $this->view->PaginationUtil = $PaginationUtil = new PaginationUtil($this->page, $numElements);
+        $this->view->current_page = $this->page;
+        $this->view->publications = $this->publications = $this->model->getByPagination($PaginationUtil->getFirstElement(), 5);
+        $this->view->tags = $this->tags = $this->getTags($this->publications);
+        // $this->view->url_paginator = 'private/categories/';
+        
+        // var_dump($this->tags);
+        $this->view->render();
     }
 
 }

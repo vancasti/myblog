@@ -8,28 +8,23 @@
  */
 class CategoriesController extends Controller
 {
+    
     public function __construct( $options ) 
     {
-        parent::__construct($options);
+        parent::__construct();
         
         $this->model = new CategoryModel;
-        
-        $this->view = new View('CategoriesView');
+        $this->view = new View('ListTemplateView');
         
         $this->actions = array (
             'add' => 'add_category',
             'edit' => 'edit_category',
             'update' => 'update_category',
             'delete' => 'delete_category',
+            'default' => 'list_category'
         );
         
-        $this->options = $options;
-        
-        //var_dump($options);
-        
         $this->executeAction($options);
-        
-        $this->list_categories();
     }
     
      /**
@@ -49,6 +44,7 @@ class CategoriesController extends Controller
     */
     public function output_view( )
     {
+        $this->view->render();
     }
     
      /**
@@ -58,13 +54,15 @@ class CategoriesController extends Controller
     */
     protected function add_category( )
     {
-        // var_dump($_POST['name_category']);
-        $name_categoria = $this->sanitize($_POST['name_category']);
-        if(!empty($name_categoria)) {
-            $this->model->create($name_categoria);
+        if(!empty($this->name_entity)) {
+            
+            if($this->model->create($this->name_entity)) 
+                array_push($this->messages, array('info', 'Categoría insertada correctamente!'));
+            else 
+                array_push($this->messages, array('error', 'Error al insertar la categoría'));
         }
         
-        $this->redirect('private/categories');
+        $this->list_category();
     }
     
     /**
@@ -74,14 +72,18 @@ class CategoriesController extends Controller
     */
     protected function edit_category( )
     {
-        // var_dump($_POST['id_category']);
-        // var_dump($_POST['name_category']);
+        if(!empty($this->name_entity)) {
+            
+            $object = array(':id' => $this->id_entity, 
+                            ':valor' => $this->name_entity); 
+            
+            if($this->model->update($object)) 
+                array_push($this->messages, array('info', 'Categoría editada correctamente!'));
+            else 
+                array_push($this->messages, array('error', 'Error al editar la categoría'));
+        }
         
-        $id_categoria = $this->sanitize($_POST['id_category']);
-        $name_categoria = $this->sanitize($_POST['name_category']);
-        
-        $this->model->update($id_categoria, $name_categoria);
-        $this->redirect('private/categories');
+        $this->list_category();
     }
     
     /**
@@ -91,12 +93,12 @@ class CategoriesController extends Controller
     */
     protected function delete_category()
     {
-        // var_dump($this->options);
+        if($this->model->delete($this->id_entity)) 
+            array_push($this->messages, array('info', 'Categoría eliminada correctamente!'));
+        else 
+            array_push($this->messages, array('error', 'Error al eliminar la categoría'));
         
-        $id_categoria = $this->options[1];
-        
-        $this->model->delete($id_categoria);
-        $this->redirect('private/categories');
+        $this->list_category();
     }
     
      /**
@@ -104,25 +106,18 @@ class CategoriesController extends Controller
     *
     * @return void
     */
-    protected function list_categories() {
-        
-        // var_dump($options);
-        $current_page = isset($this->options[0]) ? $this->options[0] : 1;
-        
-        $numElements = $this->model->numFindElements();
-        // var_dump($numElements);
-        
-        $total_pages = ceil($numElements / ITEMS_PER_PAGE);
-        $first_element = ($current_page * ITEMS_PER_PAGE) - ITEMS_PER_PAGE; // 0 * 20 = 0 , 1 * 20 = 20, 2 * 20 = 40
-        
-        $this->view->previous_page = $current_page > 1 ? $current_page - 1 : 1;
-        $this->view->next_page = $current_page < $total_pages ? $current_page + 1 : $total_pages;
-        $this->view->total_pages = $total_pages;
+    protected function list_category($current_page = 1) 
+    {
+        $this->view->numElements = $numElements = $this->model->numFindElements();
+        $this->view->PaginationUtil = $PaginationUtil = new PaginationUtil($current_page, $numElements);
         $this->view->current_page = $current_page;
-        // $this->view->numElements = $numElements;
-        $this->view->categories = $this->model->getByPagination($first_element, ITEMS_PER_PAGE);
-        $this->view->render();
+        $this->view->entities = $this->model->getByPagination($PaginationUtil->getFirstElement(), ITEMS_PER_PAGE);
+        $this->view->url_paginator = 'private/categories/';
+        $this->view->messages = $this->messages;
         
+        // $similarity = levenshtein("cat", "cot");
+        
+        $this->output_view();
     }
     
 }

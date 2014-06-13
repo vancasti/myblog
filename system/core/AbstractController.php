@@ -9,9 +9,10 @@
 abstract class Controller
 {
 
-    public $actions = array();
-    public $model = NULL;
-    public $view = NULL;
+    protected $actions = array();
+    protected $messages = array();
+    protected $model = NULL;
+    protected $view = NULL;
     protected static $nonce = NULL;
 
     /**
@@ -22,11 +23,27 @@ abstract class Controller
      */
     public function __construct( )
     {
-        // if (!is_array($options)) {
-            // throw new Exception("No options were supplied for the room.");
-        // }
+         $this->process_petition();
     }
-
+    
+    /**
+     * Initializes the view
+     *
+     * @param $options array Options for the view
+     * @return void
+     */
+    protected function process_petition() 
+    {
+        // var_dump($_POST);
+        // var_dump($_GET);
+        
+        $parameters = !empty($_GET) ? $_GET : $_POST;
+        
+        foreach ($parameters as $parameter => $value) {
+            $this->{$parameter} = $this->sanitize($value);
+        }
+    }
+    
     /**
      * Generates a nonce that helps prevent XSS and duplicate submissions
      *
@@ -97,7 +114,15 @@ abstract class Controller
      */
     protected function sanitize( $dirty )
     {
-        return htmlentities(strip_tags($dirty), ENT_QUOTES);
+        if(is_array($dirty)) {
+            foreach ($dirty as $key => $item) {
+                $dirty[$key] = htmlentities(strip_tags($item), ENT_QUOTES);
+            }
+            
+            return $dirty;
+        } else {
+            return htmlentities(strip_tags($dirty), ENT_QUOTES);
+        }
     }
     
     /**
@@ -119,12 +144,19 @@ abstract class Controller
      */
     protected function executeAction( $options )
     {
-        if(!empty($options[0])) {
-            if(array_key_exists($options[0], $this->actions)) {
-                $output = $this->{$this->actions[$options[0]]}();
-                die;
-            }
-        } 
+        if(!empty($options[0]) && array_key_exists($options[0], $this->actions)) {
+            $action = $options[0];
+            unset($options[0]);
+            if(!empty($options))
+                $output = $this->{$this->actions[$action]}($options[1]);
+            else
+                $output = $this->{$this->actions[$action]}();
+        } else {
+            if(!empty($options[0])) {
+                $output = $this->{$this->actions["default"]}($options[0]);
+            } else
+                $output = $this->{$this->actions["default"]}();
+        }
     }
 
     /**
@@ -132,7 +164,7 @@ abstract class Controller
      *
      * @return string The text to be used in the <title> tag
      */
-    abstract public function get_title( );
+    // abstract public function get_title( );
 
     /**
      * Loads and outputs the view's markup

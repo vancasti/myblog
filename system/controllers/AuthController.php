@@ -11,20 +11,15 @@ class AuthController extends Controller
     public function __construct( $options ) 
     {
         $this->model = new UserModel;
-        
         $this->view = new View('AuthView');
         
         $this->actions = array (
             'login' => 'user_login',
             'close' => 'close_session',
-            'index' => 'output_view'
+            'default' => 'output_view',
         );
         
-        //var_dump($options);
-        
         $this->executeAction($options);
-        
-        $this->view->render();
     }
     
      /**
@@ -44,8 +39,6 @@ class AuthController extends Controller
     */
     public function output_view( )
     {
-        // $this->view = new View('AuthView');
-        // $this->view->nonce = $this->generate_nonce();
         $this->view->render();            
     }
     

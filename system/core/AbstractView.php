@@ -48,7 +48,7 @@ class View
         // Converts the array of view variables to individual variables
         extract($this->vars);
 		
-		//var_dump($this->view);
+		// var_dump($this->vars);
 		
         // Checks to make sure the requested view exists
         $view_filepath = SYS_PATH . '/views/' . $this->view . '.php';

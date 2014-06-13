@@ -39,7 +39,7 @@
         $stmt->bindParam(':first_element', $first_element, PDO::PARAM_INT);
         $stmt->bindParam(':last_element', $last_element, PDO::PARAM_INT);
         $stmt->execute();
-        $categories = $stmt->fetchAll();
+        $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $stmt->closeCursor();
         
         // var_dump($categories);
@@ -86,17 +86,15 @@
      *
      * @return boolean true if success
      */
-	public function update($id,$valor)
+	public function update($object)
 	{
 		$sql = "UPDATE categories 
 		        SET valor = :valor
 		        WHERE id = :id";
         
         $stmt = self::$db->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':valor', $valor);
         
-        return $stmt->execute();
+        return $stmt->execute($object);
 	}
 	
 	/**
@@ -110,7 +108,7 @@
                 WHERE id = :id";
         
         $stmt = self::$db->prepare($sql);
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         
         return $stmt->execute();
 	}

@@ -86,6 +86,9 @@ function parse_uri( )
 {
     // Removes any subfolders in which the app is installed
     $real_uri =  preg_replace('~^'.APP_FOLDER. '/' . '~', '', $_SERVER['REQUEST_URI'], 1);
+    
+    // $array = parse_url($real_uri);
+    // var_dump($array);
 
     return explode('/', $real_uri);
 }
@@ -109,12 +112,9 @@ function remove_unwanted_slashes( $dirty_path )
  */
 function class_autoloader( $class_name )
 {
-    //$fname = strtolower($class_name);
-	
-	//var_dump($class_name);
-
     // Defines all of the valid places a class file could be stored
     $possible_locations = array(
+        SYS_PATH . '/utils/' . $class_name . '.php',
         SYS_PATH . '/models/' . $class_name . '.php',
         SYS_PATH . '/controllers/' . $class_name . '.php',
         SYS_PATH . '/core/Abstract' . $class_name . '.php',
