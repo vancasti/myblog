@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//system/config/config.php=UTF-8
+encoding//system/controllers/Error.php=UTF-8
+encoding//system/core/AbstractController.php=UTF-8
+encoding//system/core/AbstractModel.php=UTF-8
+encoding//system/core/AbstractView.php=UTF-8
+encoding//system/core/AppContext.php=UTF-8
+encoding//system/core/FrontController.php=UTF-8
+encoding//system/inc/footer.php=UTF-8
+encoding//system/inc/header.php=UTF-8
+encoding//system/models/UserModel.php=UTF-8
+encoding/index.php=UTF-8
