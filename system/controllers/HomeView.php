@@ -10,10 +10,10 @@
                 return( $parrafo ); 
         }  
     
-        foreach ($entities as $key => $publication) {
+        foreach ($publications as $key => $publication) {
             echo '<article class="publication">
                   <header>'; 
-            echo '<h1><a href="'. APP_URI . $publication["url"] . '">' . ucfirst($publication["titulo"]) . '</a></h1><p>';
+            echo '<h2><a href="'. APP_URI . $publication["url"] . '">' . ucfirst($publication["titulo"]) . '</a></h2><p>';
             echo '<span class="post-meta">';
             echo '<time class="updated" datetime=' . $publication["fpublicacion"] . '>' . $publication["fpublicacion"] . '</time>';
             echo '<span class="posted">, publicado en ' . $publication["categoria"] . '</span>';
@@ -21,7 +21,7 @@
                         <i class="fa fa-star"></i>
                         <a href="">' . 2 . ' comentarios</a>
                   </span></span></p>';
-            echo '<p><span class="avatar"><img class="blogged-by img-short" alt="" src="//www.gravatar.com/avatar/21a5824656e4647a05ac19850530ee05?d=404"></span>';
+            echo '<p><span class="avatar"><img class="blogged-by-img" alt="" src="//www.gravatar.com/avatar/21a5824656e4647a05ac19850530ee05?d=404"></span>';
             echo '<span class="author">' . $publication["autor"]. '</span></p></header>';
             echo '<section class="content">' . parrafin($publication["contenido"]) . '</section>';
             echo '<footer><p><span class="post-tags"><i class="fa fa-tags"></i>';

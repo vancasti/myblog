@@ -8,6 +8,8 @@
  */
 class TagsController extends Controller
 {
+    use PaginationTrait;
+    
     public function __construct( $options ) 
     {
         parent::__construct($options);
@@ -94,10 +96,8 @@ class TagsController extends Controller
     */
     protected function list_tag($current_page = 1) 
     {
-        $this->view->numElements = $numElements = $this->model->numFindElements();
-        $this->view->PaginationUtil = $PaginationUtil = new PaginationUtil($current_page, $numElements);
-        $this->view->current_page = $current_page;
-        $this->view->entities = $this->model->getByPagination($PaginationUtil->getFirstElement(), ITEMS_PER_PAGE);
+        self::include_pagination($current_page, ITEMS_PER_PAGE);
+        
         $this->view->url_paginator = 'private/tags/';
         $this->view->title = 'Tags';
         $this->view->messages = $this->messages;

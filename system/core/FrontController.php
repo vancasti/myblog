@@ -18,42 +18,36 @@ class FrontController
      */
    function __construct($uri_array) 
    {
-       // var_dump($uri_array);
        $default_controller = $uri_array[0]=='private' ? DEFAULT_PRIVATE_CONTROLLER : DEFAULT_PUBLIC_CONTROLLER;
-       
-       $this->class_name = $this->get_controller($uri_array);  
+       $this->class_name = $this->getController($uri_array);  
 
        // echo 'Controller a invocar recogida<br/>';
        // var_dump($this->class_name);
        // echo '<br/>';
         
-       if ($this->class_name=='PrivateController') {
+       if ($this->class_name=='Private') {
+           //FIXME
            /**
             * Ver si esta logeado o con la sesion ya abierta
             */
-           $this->class_name = $this->get_controller($uri_array);  
+           $this->class_name = $this->getController($uri_array);  
        } 
          
-       if (empty($this->class_name)) { $this->class_name = $default_controller; }
+       if (empty($this->class_name)) $this->class_name = $default_controller; 
            
        // echo 'Action recogido<br/>';
        // var_dump($uri_array);
        // echo '<br/>';
        
-       $pathController = SYS_PATH . '/controllers/' . $this->class_name . '.php';
-       $controller = file_exists($pathController) ? new $this->class_name($uri_array) : new Error();
+       $pathController = SYS_PATH . '/controllers/' . $this->class_name . 'Controller.php';
        
+       if(file_exists($pathController)) {
+           $this->class_name.= 'Controller';
+           new $this->class_name($uri_array);
+       } else {
+           new PublicationController($this->class_name);
+       }
    }
-   
-   /**
-     * Breaks the URI into an array at the slashes
-     *
-     * @return array The broken up URI
-     */
-    function parse_uri( $uri_array)
-    {
-        $uri_array = explode('/', $uri_array);
-    }
 
     /**
      * Determines the controller name using the first element of the URI array
@@ -61,7 +55,7 @@ class FrontController
      * @param $uri_array array The broken up URI
      * @return string The controller classname
      */
-    function get_controller( &$uri_array )
+    function getController( &$uri_array )
     {
         $controller = array_shift($uri_array);
         // var_dump($controller);
@@ -69,13 +63,18 @@ class FrontController
             return DEFAULT_PUBLIC_CONTROLLER;
         else
             $controller = strtok($controller, '?');
-        // var_dump($firstChunk);
-        // echo '<br/>';
+        
         if(!empty($controller))
-            return ucfirst($controller) . 'Controller';
+            return ucfirst($controller);
     }
     
-    function is_a_controller( $uri_array )
+    /**
+     * Determines if is a controller class
+     *
+     * @param $uri_array array The broken up URI
+     * @return boolean 
+     */
+    function isController( $uri_array )
     {
         if (is_array($uri_array)) {
             $last_array = array_pop($uri_array);
@@ -96,12 +95,6 @@ class FrontController
         }
         
         return true;
-    }
-    
-    function get_last( $uri_array )
-    {
-        $controller = array_pop($uri_array);
-        return ucfirst($controller);
     }
     
 }

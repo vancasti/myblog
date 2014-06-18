@@ -3,15 +3,19 @@
 
 <script type="text/javascript">
 function changeAction(btn, id_entity) {
+    var action;
+    
     switch(btn.value)
     {
         case ('edit'): 
-        document.getElementById('edit_entity' + id_entity).action = document.getElementById('edit_entity' + id_entity).action.replace('/list/', '?id=' + id_entity);
+        action = document.getElementById('edit_entity' + id_entity).action.replace('/list/', '?id=' + id_entity);
         break;
         case ('delete'):
-        document.getElementById('edit_entity' + id_entity).action = document.getElementById('edit_entity' + id_entity).action.replace('list/', 'delete');
+        action = document.getElementById('edit_entity' + id_entity).action.replace('list/', 'delete');
         break;
     }
+    
+    document.getElementById('edit_entity' + id_entity).action = action;
 }
 </script>
 

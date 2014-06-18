@@ -1,13 +1,14 @@
 <?php
 
 /**
- * Generates output for the Home view
+ * Generates output for the Categories view
  *
  * @author Victor Castiñeira <vancasti86@gmail.com>
  * 
  */
 class CategoriesController extends Controller
 {
+    use PaginationTrait;
     
     public function __construct( $options ) 
     {
@@ -108,14 +109,10 @@ class CategoriesController extends Controller
     */
     protected function list_category($current_page = 1) 
     {
-        $this->view->numElements = $numElements = $this->model->numFindElements();
-        $this->view->PaginationUtil = $PaginationUtil = new PaginationUtil($current_page, $numElements);
-        $this->view->current_page = $current_page;
-        $this->view->entities = $this->model->getByPagination($PaginationUtil->getFirstElement(), ITEMS_PER_PAGE);
+        self::include_pagination($current_page, ITEMS_PER_PAGE);
+        
         $this->view->url_paginator = 'private/categories/';
         $this->view->messages = $this->messages;
-        
-        // $similarity = levenshtein("cat", "cot");
         
         $this->output_view();
     }

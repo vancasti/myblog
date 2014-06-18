@@ -16,9 +16,10 @@ $_C = array();
 //-----------------------------------------------------------------------------
 
 $_C['APP_TIMEZONE'] = 'Europe/Madrid';
-$_C['DEFAULT_PUBLIC_CONTROLLER'] = 'HomeController';
-$_C['DEFAULT_PRIVATE_CONTROLLER'] = 'PrivateController';
+$_C['DEFAULT_PUBLIC_CONTROLLER'] = 'Home';
+$_C['DEFAULT_PRIVATE_CONTROLLER'] = 'Private';
 $_C['ITEMS_PER_PAGE'] = 10;
+$_C['PUBLICATIONS_PER_PAGE'] = 5;
 
 //-----------------------------------------------------------------------------
 // Database credentials

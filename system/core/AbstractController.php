@@ -14,6 +14,7 @@ abstract class Controller
     protected $model = NULL;
     protected $view = NULL;
     protected static $nonce = NULL;
+    private $prueba = "";
 
     /**
      * Initializes the view
@@ -32,11 +33,8 @@ abstract class Controller
      * @param $options array Options for the view
      * @return void
      */
-    protected function process_petition() 
+    protected final function process_petition() 
     {
-        // var_dump($_POST);
-        // var_dump($_GET);
-        
         $parameters = !empty($_GET) ? $_GET : $_POST;
         
         foreach ($parameters as $parameter => $value) {
@@ -49,7 +47,7 @@ abstract class Controller
      *
      * @return string The generated nonce
      */
-    protected function generate_nonce( )
+    protected final function generate_nonce( )
     {
         // Checks for an existing nonce before creating a new one
         if (empty(self::$nonce)) {
@@ -66,7 +64,7 @@ abstract class Controller
      *
      * @return bool TRUE if the nonce is valid; otherwise FALSE
      */
-    protected function check_nonce( )
+    protected final function check_nonce( )
     {
         if (
             isset($_SESSION['nonce']) && !empty($_SESSION['nonce'])
@@ -89,7 +87,6 @@ abstract class Controller
     protected function handle_form_submission( $action )
     {
         if ($this->check_nonce()) {
-
             // Calls the method specified by the action
             $output = $this->{$this->actions[$action]}();
 
@@ -112,7 +109,7 @@ abstract class Controller
      * @param $dirty string The string to be sanitized
      * @return string The sanitized string
      */
-    protected function sanitize( $dirty )
+    protected final function sanitize( $dirty )
     {
         if(is_array($dirty)) {
             foreach ($dirty as $key => $item) {

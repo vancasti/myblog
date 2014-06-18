@@ -64,8 +64,14 @@
         $sql = "SELECT id_publication,tags.valor
                 FROM publications_tags
                 LEFT JOIN tags
-                    ON( publications_tags.id_tag = tags.id )
-                WHERE id_publication IN (".implode(',', $array_ids).")";
+                ON( publications_tags.id_tag = tags.id )";
+                
+        if(is_array($array_ids)) 
+            $whereSQL = "WHERE id_publication IN (".implode(',', $array_ids).")";
+        else 
+            $whereSQL = "WHERE id_publication=" .$array_ids ;    
+        
+        $sql.=$whereSQL;
                 
         try {    
             $stmt = self::$db->prepare($sql);
@@ -78,7 +84,7 @@
         
         return $tags;    
     }
-       
+    
     /**
      * Add a new user
      *
@@ -130,6 +136,34 @@
         return $publication;
     }
     
+     /**
+     * Add a new user
+     *
+     * @return boolean true if success
+     * Cambiar last_element por num_elements
+     */
+    public function getByURL($url)
+    {
+        
+        $sql =  "SELECT publications.id,titulo,url,contenido,fcreacion,fmodificacion,
+                fpublicacion,categories.valor as categoria, nombre as autor,email
+                FROM publications 
+                LEFT JOIN categories
+                    ON( publications.id_categoria = categories.id ) 
+                LEFT JOIN users
+                    ON( publications.id_autor = users.id )
+                WHERE url=:url";
+        
+        $stmt = self::$db->prepare($sql);
+        $stmt->bindParam(':url', $url);
+        $stmt->execute();
+        $publication = $stmt->fetch();
+        $stmt->closeCursor();
+        
+        return $publication;
+    }
+    
+    
     /**
      * Add a new user
      *
@@ -165,7 +199,7 @@
     }
     
     /**
-     * Update a category
+     * Update a publication
      *
      * @return boolean true if success
      */
@@ -187,7 +221,7 @@
     }
     
     /**
-     * Delete a category
+     * Delete a publication
      *
      * @return boolean true if success
      */

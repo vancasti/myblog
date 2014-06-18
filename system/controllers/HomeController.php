@@ -6,9 +6,11 @@
  * @author Victor Castiñeira <vancasti86@gmail.com>
  * 
  */
+ 
 class HomeController extends Controller
 {
-
+    use PaginationTrait;
+    
     /**
      * Overrides the parent constructor to avoid an error
      *
@@ -34,7 +36,11 @@ class HomeController extends Controller
         return 'Realtime Q&amp;A';
     }
     
-    
+    /**
+     * Generates the title of the page
+     * @param Publication's list
+     * @return string The title of the page
+     */
     public function getTags($publications)
     {
         $array_ids = array();
@@ -42,10 +48,8 @@ class HomeController extends Controller
         foreach ($publications as $key => $publication) {
             array_push($array_ids, $publication["id"]);
         }
-        // var_dump($array_ids);
         
         return $this->model->getAssociatedTags($array_ids);
-        
     }
 
     /**
@@ -57,14 +61,9 @@ class HomeController extends Controller
     {
         if(!isset($this->page)) $this->page = 1;
         
-        $this->view->numElements = $numElements = $this->model->numFindElements();
-        $this->view->PaginationUtil = $PaginationUtil = new PaginationUtil($this->page, $numElements);
-        $this->view->current_page = $this->page;
-        $this->view->publications = $this->publications = $this->model->getByPagination($PaginationUtil->getFirstElement(), 5);
-        $this->view->tags = $this->tags = $this->getTags($this->publications);
-        // $this->view->url_paginator = 'private/categories/';
+        self::include_pagination($this->page, PUBLICATIONS_PER_PAGE);
+        $this->view->tags = $this->tags = $this->getTags($this->entities);
         
-        // var_dump($this->tags);
         $this->view->render();
     }
 

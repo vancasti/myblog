@@ -42,14 +42,18 @@ h1, h2, h3, h4, h5, h6 {
 	text-decoration: none;
 }
 
-.blogged-by-img {
+.blogged-by {
 	border-radius: 50%;
     margin-right: 5px;
     vertical-align: middle;
-    width: 30px !important;
+    /*width: 30px !important;*/
 }
 
-.post-tags{
+.img-short {
+	width: 35px !important;
+}
+
+.post-tags {
 	color: #999999;
 	font-size:14px;
 }
@@ -61,15 +65,20 @@ h1, h2, h3, h4, h5, h6 {
 a.orange {
 	background: none repeat scroll 0 0 #F55D2D;
     border-bottom: 2px solid #D44518 !important;
-    color: #fff;
     padding: 6px 12px;
+    color: #fff;
 }
 
-.author {
+p.author span {
+	margin-left: 30px;
+}
+
+/*.author {
 	font-size: 14px;
-	vertical-align: middle;
-    /*position: relative;*/
-    /*top: 5px;*/
+}*/
+
+.envelope {
+	/*margin-left: 30px;*/
 }
 
 .content {
@@ -86,21 +95,14 @@ a.orange {
 	margin-bottom: 20px;
 }
 
-/*.comments:before {
-	content: "☆";
-	margin-right: 3px;
-}*/
 .publication {
 	padding: 20px;
 }
 
-.publication h2 {
-	/*letter-spacing: 2px;*/
+/*.publication h1 {
     margin: 0 0 10px;
-    /*text-align: center;*/
-    /*text-transform: uppercase;*/
     font-weight: bold;
-}
+}*/
 
 .about {
 	padding-top : 20px;
