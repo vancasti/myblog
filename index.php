@@ -28,10 +28,15 @@ define('APP_PATH', dirname(__FILE__));
 // App folder, relative from web root (i.e. /realtime)
 define('APP_FOLDER', dirname($_SERVER['SCRIPT_NAME']));
 
+define(
+    'HOST_URL',
+    'http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT']
+);
+
 // URL path to the app (i.e. http://example.org/realtime/)
 define(
     'APP_URI',
-    remove_unwanted_slashes('http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . '/' . APP_FOLDER . '/')
+    remove_unwanted_slashes( HOST_URL . '/' . APP_FOLDER . '/')
 );
 
 // Server path to the system folder (for includes)

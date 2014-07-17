@@ -95,7 +95,7 @@ class PublicationController extends Controller
     {
         $publication = array(':titulo' => $this->titulo, 
                              ':url' => strtolower(str_replace(' ', '-', $this->titulo)),
-                             ':contenido' => $_POST["contenido"],
+                             ':contenido' => $_POST['contenido'],
                              ':fcreacion' => date('Y-m-d h:i:s'),
                              ':fpublicacion' => $this->fecha,
                              ':id_autor' => $_SESSION['id_usuario'],

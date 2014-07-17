@@ -50,6 +50,7 @@ CREATE TABLE `dev_blogg`.`publications` (
   PRIMARY KEY (`id`),
   INDEX `id_idx` (`id_autor` ASC),
   INDEX `id_idx1` (`id_categoria` ASC),
+  UNIQUE INDEX `titulo_UNIQUE` (`titulo` ASC),
   CONSTRAINT `publications-users`
     FOREIGN KEY (`id_autor`)
     REFERENCES `dev_blogg`.`users` (`id`)
@@ -74,8 +75,8 @@ CREATE TABLE `dev_blogg`.`publications_tags` (
   CONSTRAINT `publi_fk`
     FOREIGN KEY (`id_publication`)
     REFERENCES `dev_blogg`.`publications` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION) DEFAULT CHARSET=utf8;
+    ON DELETE CASCADE
+    ON UPDATE CASCADE) DEFAULT CHARSET=utf8;
 
 CREATE TABLE `dev_blogg`.`statistics` (
   `id` INT(11) NOT NULL,

@@ -144,7 +144,6 @@
      */
     public function getByURL($url)
     {
-        
         $sql =  "SELECT publications.id,titulo,url,contenido,fcreacion,fmodificacion,
                 fpublicacion,categories.valor as categoria, nombre as autor,email
                 FROM publications 

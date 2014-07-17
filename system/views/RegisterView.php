@@ -6,7 +6,7 @@
                 <table class="noborder">
                 <tbody>
                     <tr>
-                        <td><input name="name" type="text" placeholder="Inserte nombre"/></td>
+                        <td><input name="name" type="text" placeholder="Inserte nombre completo"/></td>
                         <td><?php  if (isset($errorName)) echo '<span class="error">' . $errorName . '</span>'; ?></td>
                     </tr>
                     <tr>

@@ -2,9 +2,9 @@
 <?php require_once SYS_PATH . '/inc/menu.php'; ?>
 
 <link rel="stylesheet" type="text/css" href="<?php echo $app->get('js_path'); ?>/jquery/jquery.datetimepicker.css"/>
-<script type="text/javascript" src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
 <script type="text/javascript" src="<?php echo $app->get('js_path'); ?>/jquery/jquery.js"></script>
 <script type="text/javascript" src="<?php echo $app->get('js_path'); ?>/jquery/jquery.datetimepicker.js"></script>
+<script type="text/javascript" src="<?php echo HOST_URL . '/tinymce/tinymce.min.js'; ?>"></script>
 
 <div class="container">
     <div class="two-thirds columns">
@@ -58,11 +58,11 @@
 
 <script type="text/javascript">
 $('#fecha').datetimepicker({
-            format:'Y-m-d H:i',
-    });
+        format:'Y-m-d H:i',
+});
 </script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 tinymce.init({
     selector: "textarea",
     theme: "modern",
@@ -70,9 +70,9 @@ tinymce.init({
         "advlist autolink lists link image charmap print preview hr anchor pagebreak",
         "searchreplace wordcount visualblocks visualchars code fullscreen",
         "insertdatetime media nonbreaking save table contextmenu directionality",
-        "emoticons template paste textcolor"
+        "emoticons template paste textcolor colorpicker textpattern jbimages"
     ],
-    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+    toolbar1: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages",
     toolbar2: "print preview media | forecolor backcolor emoticons",
     image_advtab: true,
     templates: [

@@ -30,13 +30,13 @@ function changeAction(btn, id_entity) {
                     <?php
                         if(!empty($entities)) {
                             $columns = array_keys($entities[0]);
-                            unset($columns[3]);
-                            unset($columns[8]);
+                            
                             foreach ($columns as $column) {
-                                echo '<th>' . ucfirst($column) . '</th>';
+                                if($column!='autor' && $column!='contenido')
+                                    echo '<th>' . ucfirst($column) . '</th>';
                             }
                         }
-                    ?>
+                    ?> 
                     <th>Opciones</th>
                     </tr>
                 </thead>
@@ -58,7 +58,7 @@ function changeAction(btn, id_entity) {
                         echo '<button type="submit" class="buttongrid" form="edit_entity' . $entity["id"] . '" onclick="changeAction(this,'. $entity["id"] . ')" value="delete"><img src="'. $app->get('images_path') .'/close-icon.png"></img></button>';
                         echo '</td>';
                         echo '</tr>';
-                        echo '</form>';
+                        echo '</form>'; 
                     endforeach;
                ?>
                 </tbody>

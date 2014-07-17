@@ -33,9 +33,11 @@ abstract class Controller
      * @param $options array Options for the view
      * @return void
      */
-    protected final function process_petition() 
+    protected final function process_petition( ) 
     {
-        $parameters = !empty($_GET) ? $_GET : $_POST;
+        // $parameters = !empty($_GET) ? $_GET : $_POST;
+        
+        $parameters = $_SERVER['REQUEST_METHOD'] == 'GET' ? $_GET : $_POST;
         
         foreach ($parameters as $parameter => $value) {
             $this->{$parameter} = $this->sanitize($value);
