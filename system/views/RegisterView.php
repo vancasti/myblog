@@ -6,16 +6,16 @@
                 <table class="noborder">
                 <tbody>
                     <tr>
-                        <td><input name="name" type="text" placeholder="Inserte nombre completo"/></td>
+                        <td><input name="name" type="text" placeholder="Inserte nombre completo" value="<?php if(isset($name)) echo $name; ?>"/></td>
                         <td><?php  if (isset($errorName)) echo '<span class="error">' . $errorName . '</span>'; ?></td>
                     </tr>
                     <tr>
-                        <td><input name="email" type="text" placeholder="Inserte email"/></td>
+                        <td><input name="email" type="text" placeholder="Inserte email" value="<?php if(isset($email)) echo $email; ?>"/></td>
                         <td><?php  if (isset($errorEmail)) echo '<span class="error">' . $errorEmail . '</span>'; ?></td>
                     </tr>
                    <tr>
-                       <td><input name="password" type="password" placeholder="Inserte password"/></td>
-                       <td><?php  if (isset($errorPassword1)) echo '<span class="error">' . $errorPassword1 . '</span>' ?></td>
+                       <td><input name="password" type="password" placeholder="Inserte password" /></td>
+                       <td><?php  if (isset($errorPassword)) echo '<span class="error">' . $errorPassword . '</span>' ?></td>
                    </tr>
                    <tr>
                        <td><input name="password2" type="password" placeholder="Repita password"/></td>

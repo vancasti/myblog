@@ -7,7 +7,7 @@
                 <table class="noborder">
                 <tbody>
                     <tr>
-                        <td><input name="email" type="email" placeholder="Inserte email" /></td>
+                        <td><input name="email" type="email" placeholder="Inserte email" value="<?php if(isset($email)) echo $email; ?>"/></td>
                         <td><?php  if (isset($errorEmail)) echo '<span class="error">' . $errorEmail . '</span>'; ?></td>
                     </tr>
                     <tr>

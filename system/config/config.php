@@ -20,6 +20,7 @@ $_C['DEFAULT_PUBLIC_CONTROLLER'] = 'Home';
 $_C['DEFAULT_PRIVATE_CONTROLLER'] = 'Private';
 $_C['ITEMS_PER_PAGE'] = 10;
 $_C['PUBLICATIONS_PER_PAGE'] = 5;
+$_C['MAX_URL_LENGTH'] = 60;
 
 //-----------------------------------------------------------------------------
 // Database credentials

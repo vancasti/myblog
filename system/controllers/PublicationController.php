@@ -30,7 +30,6 @@ class PublicationController extends Controller
         );
         
         $this->requireFields = array('titulo', 'fecha', 'contenido'); 
-        
         $this->executeAction($options);
     }
     
@@ -94,7 +93,7 @@ class PublicationController extends Controller
     protected function add_publication () 
     {
         $publication = array(':titulo' => $this->titulo, 
-                             ':url' => strtolower(str_replace(' ', '-', $this->titulo)),
+                             ':url' => StringUtil::createUrlFriendly($this->titulo),
                              ':contenido' => $_POST['contenido'],
                              ':fcreacion' => date('Y-m-d h:i:s'),
                              ':fpublicacion' => $this->fecha,
@@ -129,7 +128,7 @@ class PublicationController extends Controller
     {
         $publication = array(':id' => $this->id, 
                              ':titulo' => $this->titulo, 
-                             ':url' => strtolower(str_replace(' ', '-', $this->titulo)),
+                             ':url' => StringUtil::createUrlFriendly($this->titulo),
                              ':contenido' => $_POST['contenido'],
                              ':fpublicacion' => $this->fecha,
                              ':id_autor' => $_SESSION['id_usuario'],

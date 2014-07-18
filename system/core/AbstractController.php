@@ -35,8 +35,6 @@ abstract class Controller
      */
     protected final function process_petition( ) 
     {
-        // $parameters = !empty($_GET) ? $_GET : $_POST;
-        
         $parameters = $_SERVER['REQUEST_METHOD'] == 'GET' ? $_GET : $_POST;
         
         foreach ($parameters as $parameter => $value) {

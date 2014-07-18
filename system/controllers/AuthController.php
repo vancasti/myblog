@@ -10,6 +10,8 @@ class AuthController extends Controller
 {
     public function __construct( $options ) 
     {
+        parent::__construct();
+        
         $this->model = new UserModel;
         $this->view = new View('AuthView');
         
@@ -31,6 +33,28 @@ class AuthController extends Controller
     {
         return 'Admin page';
     }
+    
+    /**
+    * Loads and outputs the view's markup
+    *
+    * @return void
+    */
+    protected function emptyFieldsValidator () 
+    {
+        $error = false;
+        
+        if(empty($this->email)) {
+            $this->view->errorEmail = 'Debe insertar el email';
+            $error = true;
+        }
+        
+        if(empty($this->password)) {
+            $this->view->errorPassword = 'Debe insertar la contraseña';
+            $error = true;
+        }
+        
+        return $error;
+    }
 
     /**
     * Loads and outputs the view's markup
@@ -42,39 +66,31 @@ class AuthController extends Controller
         $this->view->render();            
     }
     
+    /**
+    * Loads and outputs the view's markup
+    *
+    * @return void
+    */
     protected function user_login( )
     {
-        // var_dump($_POST);
-        // $this->view = new View('AuthView');
-        $error = false;
-        
-        if(!empty($_POST['email']))
-            $email = $this->sanitize($_POST['email']);
-        else {
-            $this->view->errorEmail = 'Debe insertar el email';
-            $error = true;
-        }
-        
-        if(!empty($_POST['password']))
-            $password = $this->sanitize($_POST['password']);
-        else {
-            $this->view->errorPassword = 'Debe insertar la contraseña';
-            $error = true;
-        }
-        
-        if(!$error) {
-            if($this->model->login($email, $password)) {
+        if(!self::emptyFieldsValidator()) {
+            
+            if($this->model->login($this->email, $this->password)) {
                 $this->redirect('private');
             } else {
                 $this->view->errorEmail = 'Usuario o contraseña incorrecto';
-                $this->view->render();
             }
-        } else {
-            $this->view->render();
-        }
+        } 
         
+        $this->view->email = $this->email;
+        $this->view->render();
     }
     
+    /**
+    * Loads and outputs the view's markup
+    *
+    * @return void
+    */
     protected function close_session( )
     {
         //Libera todas las variables de sesión
